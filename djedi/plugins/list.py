@@ -50,6 +50,9 @@ class ListPlugin(DjediPlugin):
                 child_uri, _ = self.get_child_uri(node.uri)
                 return child_plugin.render_node(Node(uri=child_uri), data)
 
+        if node.uri.query and node.uri.query.get("render", ["true"])[0] == "false":
+            return json.dumps(data)
+
         return u''.join(self.stream_node(node, data))
 
     def stream_node(self, node, data):
